@@ -62,6 +62,14 @@ describe('terminalSupportsSynchronizedOutput', () => {
 });
 
 describe('installSynchronizedOutput', () => {
+  beforeEach(() => {
+    // Clear WSL/Windows Terminal env vars so installTerminalRedrawOptimizer
+    // (called at line 150) does not skip optimization when tests run on WSL.
+    vi.stubEnv('WSL_DISTRO_NAME', '');
+    vi.stubEnv('WSL_INTEROP', '');
+    vi.stubEnv('WT_SESSION', '');
+  });
+
   afterEach(() => {
     resetSynchronizedOutputStats();
   });
